@@ -3,34 +3,38 @@ import React, { Component } from 'react';
 export default class Room extends Component {
     render() {
         return (
-            <div>
+            <div className="chat_container">
                 <div class="main_chat">
-                    <div>
-                        <a class="LeaveRoom_button" type="button" href="/Leave Room">Leave Room</a>
-                        <h2>Users</h2>
-                        <ul class="list">
-                            <li>
-                                <div class="about">
-                                    <div class="name">
-                                        Arpita Mehta
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul class="list">
-                            <li>
-                                <div class="about">
-                                    <div class="name">
-                                        Nachiket Mehta
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="chat messages">
-                        <div class="chat-about">
-                            <div class="chat-with">Chat with Arpita Mehta</div>
+                    <div className="chat_nav">
+                        <div className="chat_users">
+                            <h2>Users</h2>
+                            <ul>
+                                <li>
+                                    Arpita Mehta
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    Nachiket Mehta
+                                </li>
+                            </ul>
                         </div>
+                        <div className="chat_rooms">
+                            <h2>Rooms</h2>
+                            <ul>
+                                <li>
+                                    Cooking
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    Travel
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="chat_messages">
                         <div class="chat-history">
                             <ul>
                                 <li>
@@ -73,8 +77,7 @@ export default class Room extends Component {
                     </div>
                 </div>
                 <div class="chat_message">
-                    <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows="2" cols="120"></textarea>
-                    &nbsp;&nbsp;
+                    <input name="message-to-send" className="message_input" id="message-to-send" placeholder="Type your message" />
                     <button>Send</button>
                 </div>
             </div>

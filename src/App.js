@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import Login from './Login'
 import Room from './Room'
-import Rooms from'./Rooms'
+import Rooms from './Rooms'
 import Register from './Register'
 import './App.css'
 
@@ -12,7 +12,7 @@ class App extends Component {
     return (
       <div className="App">
         <header class="App_header">
-          <h1><a href="/">LetsChat</a></h1>
+          <h1>LetsChat</h1>
         </header>
         <Route
           exact
@@ -31,7 +31,7 @@ class App extends Component {
         <Route
           path='/register'
           component={Register}
-        /> 
+        />
       </div>
     )
 
