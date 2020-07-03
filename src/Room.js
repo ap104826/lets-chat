@@ -3,7 +3,24 @@ import ApiContext from './ApiContext'
 
 export default class Room extends Component {
     static contextType = ApiContext
+
+    handleSubmit = e => {
+        e.preventDefault()
+        const form = e.currentTarget
+        const messageName = form['message-to-send'].value
+        const message = {
+            message: messageName,
+            user: 'Nachiket',
+            time: '10:00am'
+        }
+
+        this.context.addMessage(message)
+
+    }
+
     render() {
+
+
         const { users = [], rooms = [], messages = [] } = this.context
 
         return (
@@ -42,9 +59,12 @@ export default class Room extends Component {
                     </div>
                 </div>
                 <div class="chat_message">
-                    <input name="message-to-send" className="message_input" id="message-to-send" placeholder="Type your message" />
-                    <button>Send</button>
+                    <form onSubmit={(e) => this.handleSubmit(e)}>
+                        <input name="message-to-send" className="message_input" id="message-to-send" placeholder="Type your message" />
+                        <button>Send</button>
+                    </form>
                 </div>
+
             </div>
         )
 

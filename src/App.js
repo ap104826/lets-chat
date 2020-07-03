@@ -41,8 +41,20 @@ class App extends Component {
 
   }
 
+
+  handleAddMessage = (message) => {
+    this.setState({
+      messages: [
+        ...this.state.messages,
+        message
+      ]
+    })
+  }
+
+
   render() {
     const value = {
+      addMessage: this.handleAddMessage,
       users: this.state.users,
       rooms: this.state.rooms,
       messages: this.state.messages,
