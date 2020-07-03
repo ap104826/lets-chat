@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import ApiContext from './ApiContext'
 
 export default class Room extends Component {
+    static contextType = ApiContext
     render() {
+        const { users = [], rooms = [], messages = [] } = this.context
+
         return (
             <div className="chat_container">
                 <div class="main_chat">
@@ -9,27 +13,13 @@ export default class Room extends Component {
                         <div className="chat_users">
                             <h2>Users</h2>
                             <ul>
-                                <li>
-                                    Arpita Mehta
-                                </li>
-                            </ul>
-                            <ul>
-                                <li>
-                                    Nachiket Mehta
-                                </li>
+                                {users.map(user => <li>{user.name}</li>)}
                             </ul>
                         </div>
                         <div className="chat_rooms">
                             <h2>Rooms</h2>
                             <ul>
-                                <li>
-                                    Cooking
-                                </li>
-                            </ul>
-                            <ul>
-                                <li>
-                                    Travel
-                                </li>
+                                {rooms.map(room => <li>{room.name}</li>)}
                             </ul>
                         </div>
                     </div>
@@ -37,41 +27,16 @@ export default class Room extends Component {
                     <div class="chat_messages">
                         <div class="chat-history">
                             <ul>
-                                <li>
+                                {messages.map(message => <li>
                                     <div class="message-data align-right">
-                                        <span class="message-data-time">10:00 Am, Today</span> &nbsp; &nbsp;
-              <span class="message-data-name">Nachiket</span>
+                                        <span class="message-data-time">{message.time}</span> &nbsp; &nbsp;
+              <span class="message-data-name">{message.user}</span>
                                     </div>
                                     <div class="message other-message float-right">
-                                        Hi Arpita, how are you? How is the project coming along?
+                                        {message.message}
                                     </div>
-                                </li>
-                                <li>
-                                    <div class="message-data">
-                                        <span class="message-data-name"> Arpita</span>
-                                        <span class="message-data-time">10:12 AM, Today</span>
-                                    </div>
-                                    <div class="message my-message">
-                                        Are we meeting today? Project has been already finished and I have results to show you.
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="message-data align-right">
-                                        <span class="message-data-time"> 10:14 AM, Today</span> &nbsp; &nbsp;
-                                        <span class="message-data-name">Nachiket</span>
-                                    </div>
-                                    <div class="message other- message float-right">Well I am not sure. The rest of the team is not here yet. Maybe in an hour or so? Have you faced any problems at the last phase of the project?
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="message-data">
-                                        <span class="message-data-name"> Arpita</span>
-                                        <span class="message-data-time">10:20 AM, Today</span>
-                                    </div>
-                                    <div class="message my-message">
-                                        Actually everything was fine. I'm very excited to show this to our team.
-                                    </div>
-                                </li>
+                                </li>)}
+
                             </ul>
                         </div>
                     </div>
