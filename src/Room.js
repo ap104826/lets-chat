@@ -1,17 +1,36 @@
 import React, { Component } from 'react';
 import ApiContext from './ApiContext'
+import { getMessagesForRoom } from './messages-helpers'
+import { NavLink } from 'react-router-dom';
+
 
 export default class Room extends Component {
+    static defaultProps = {
+        match: {
+            params: {}
+        }
+    }
     static contextType = ApiContext
+
+    roomSelected(e) {
+        const roomId = e.target.value
+        if (roomId = 'all') {
+            this.props.history.push('/')
+            return
+        }
+        this.props.history.push(`/room/${roomId}`)
+    }
 
     handleSubmit = e => {
         e.preventDefault()
+        const { room_id } = this.props.match.params
         const form = e.currentTarget
         const messageName = form['message-to-send'].value
         const message = {
             message: messageName,
             user: 'Nachiket',
-            time: '10:00am'
+            time: '10:00am',
+            room_id: parseInt(room_id)
         }
 
         this.context.addMessage(message)
@@ -20,8 +39,9 @@ export default class Room extends Component {
 
     render() {
 
-
+        const { room_id } = this.props.match.params
         const { users = [], rooms = [], messages = [] } = this.context
+        const messagesForRoom = getMessagesForRoom(messages, parseInt(room_id))
 
         return (
             <div className="chat_container">
@@ -33,10 +53,19 @@ export default class Room extends Component {
                                 {users.map(user => <li>{user.name}</li>)}
                             </ul>
                         </div>
+
                         <div className="chat_rooms">
                             <h2>Rooms</h2>
                             <ul>
-                                {rooms.map(room => <li>{room.name}</li>)}
+                                {rooms.map(room =>
+                                    <li key={room.id}>
+                                        <NavLink
+                                            to={`${room.id}`}
+                                        >
+                                            {room.name}
+
+                                        </NavLink>
+                                    </li>)}
                             </ul>
                         </div>
                     </div>
@@ -44,7 +73,7 @@ export default class Room extends Component {
                     <div class="chat_messages">
                         <div class="chat-history">
                             <ul>
-                                {messages.map(message => <li>
+                                {messagesForRoom.map(message => <li>
                                     <div class="message-data align-right">
                                         <span class="message-data-time">{message.time}</span> &nbsp; &nbsp;
               <span class="message-data-name">{message.user}</span>

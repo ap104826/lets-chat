@@ -17,26 +17,32 @@ class App extends Component {
       name: 'Nachiket'
     }],
     rooms: [{
-      name: 'Cooking'
+      name: 'Cooking',
+      id: 1
     }, {
-      name: 'Travel'
+      name: 'Travel',
+      id: 2
     }],
     messages: [{
       message: 'Hi Arpita, how are you? How is the project coming along?',
       time: '10:00 Am',
-      user: 'Nachiket'
+      user: 'Nachiket',
+      room_id: 1
     }, {
       message: 'Are we meeting today? Project has been already finished and I have results to show you.',
       time: '10:12 Am',
-      user: 'Arpita'
+      user: 'Arpita',
+      room_id: 1
     }, {
       time: '10:14 Am',
       user: 'Nachiket',
-      message: 'Well I am not sure. The rest of the team is not here yet. Maybe in an hour or so? Have you faced any problems at the last phase of the project?'
+      message: 'Well I am not sure. The rest of the team is not here yet. Maybe in an hour or so? Have you faced any problems at the last phase of the project?',
+      room_id: 2
     }, {
       time: '10:20 Am',
       user: 'Arpita',
-      message: 'Actually everything was fine. I am very excited to show this to our team.'
+      message: 'Actually everything was fine. I am very excited to show this to our team.',
+      room_id: 2
     }]
 
   }
