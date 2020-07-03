@@ -45,12 +45,12 @@ export default class Room extends Component {
 
         return (
             <div className="chat_container">
-                <div class="main_chat">
+                <div className="main_chat">
                     <div className="chat_nav">
                         <div className="chat_users">
                             <h2>Users</h2>
                             <ul>
-                                {users.map(user => <li>{user.name}</li>)}
+                                {users.map((user, index) => <li key={index}>{user.name}</li>)}
                             </ul>
                         </div>
 
@@ -70,15 +70,15 @@ export default class Room extends Component {
                         </div>
                     </div>
 
-                    <div class="chat_messages">
-                        <div class="chat-history">
+                    <div className="chat_messages">
+                        <div className="chat-history">
                             <ul>
-                                {messagesForRoom.map(message => <li>
-                                    <div class="message-data align-right">
-                                        <span class="message-data-time">{message.time}</span> &nbsp; &nbsp;
-              <span class="message-data-name">{message.user}</span>
+                                {messagesForRoom.map((message, index) => <li key={index}>
+                                    <div className="message-data align-right">
+                                        <span className="message-data-time">{message.time}</span> &nbsp; &nbsp;
+              <span className="message-data-name">{message.user}</span>
                                     </div>
-                                    <div class="message other-message float-right">
+                                    <div className="message other-message float-right">
                                         {message.message}
                                     </div>
                                 </li>)}
@@ -87,12 +87,10 @@ export default class Room extends Component {
                         </div>
                     </div>
                 </div>
-                <div class="chat_message">
-                    <form onSubmit={(e) => this.handleSubmit(e)}>
-                        <input name="message-to-send" className="message_input" id="message-to-send" placeholder="Type your message" />
-                        <button>Send</button>
-                    </form>
-                </div>
+                <form className="chat_message" onSubmit={(e) => this.handleSubmit(e)}>
+                    <input name="message-to-send" className="message_input" id="message-to-send" placeholder="Type your message" />
+                    <button>Send</button>
+                </form>
 
             </div>
         )

@@ -68,7 +68,7 @@ class App extends Component {
     return (
       <ApiContext.Provider value={value}>
         <div className="App">
-          <header class="App_header">
+          <header className="App_header">
             <h1>LetsChat</h1>
           </header>
           <Route
