@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import ApiContext from './ApiContext'
 import { getMessagesForRoom } from './messages-helpers'
 import { NavLink } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 
 
@@ -55,21 +58,8 @@ export default class Room extends Component {
                             </ul>
                         </div>
 
-                        <div className="chat_rooms">
-                            <h2>Rooms</h2>
-                            <ul>
-                                {rooms.map(room =>
-                                    <li key={room.id}>
-                                        <NavLink
-                                            to={`${room.id}`}
-                                        >
-                                            {room.name}
-
-                                        </NavLink>
-                                    </li>)}
-                            </ul>
-                        </div>
                     </div>
+
 
                     <div className="chat_messages">
                         <div className="chat-history">

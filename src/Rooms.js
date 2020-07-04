@@ -11,31 +11,26 @@ export default class Rooms extends Component {
         const { rooms = [] } = this.context
 
         return (
+
             <div>
-                <a className="LeaveRoom_button" type="button" href="/Leave Room">Logout</a>
-                <div>
-                    <input type="text" className="input-box" placeholder="Type a new Room" />
+                <input type="text" className="input-box" placeholder="Type a new Room" />
 
-                    <button type="button" className="signup-btn">Create</button>
-                    <hr />
+                <button type="button" className="signup-btn">Create</button>
+                <hr />
 
-                    <label htmlFor="rooms">Choose a Room:</label>
-                    <br></br>
-                    <ul>
-                        {rooms.map(room =>
-                            <li key={room.id}>
-                                <NavLink
-                                    to={`/rooms/${room.id}`}
-                                >
-                                    {room.name}
+                <label htmlFor="rooms">Choose a Room:</label>
+                <br></br>
+                <ul>
+                    {rooms.map(room =>
+                        <li key={room.id}>
+                            <NavLink
+                                to={`/rooms/${room.id}`}
+                            >
+                                {room.name}
 
-                                </NavLink>
-                            </li>)}
-                    </ul>
-
-
-                </div>
-
+                            </NavLink>
+                        </li>)}
+                </ul>
             </div>
         )
 
