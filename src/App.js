@@ -3,7 +3,6 @@ import { Route } from 'react-router-dom'
 import Login from './Login'
 import Room from './Room'
 import Rooms from './Rooms'
-import Register from './Register'
 import './App.css'
 import ApiContext from './ApiContext'
 import RoomNav from './RoomNav'
@@ -111,10 +110,7 @@ class App extends Component {
             path='/'
             component={Rooms}
           />
-          <Route
-            path='/register'
-            component={Register}
-          />
+
         </div>
       </ApiContext.Provider>
     )
