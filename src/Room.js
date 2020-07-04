@@ -29,12 +29,12 @@ export default class Room extends Component {
         const message = {
             message: messageName,
             user: 'Nachiket',
-            time: '10:00am',
+            time: new Date(),
             room_id: parseInt(room_id)
         }
 
         this.context.addMessage(message)
-
+        form['message-to-send'].value = ''
     }
 
     render() {
@@ -75,8 +75,9 @@ export default class Room extends Component {
                             <ul>
                                 {messagesForRoom.map((message, index) => <li key={index}>
                                     <div className="message-data align-right">
-                                        <span className="message-data-time">{message.time}</span> &nbsp; &nbsp;
+                                        <span className="message-data-time">{message.time.getHours()}:{message.time.getMinutes()}</span> &nbsp; &nbsp;
               <span className="message-data-name">{message.user}</span>
+
                                     </div>
                                     <div className="message other-message float-right">
                                         {message.message}
