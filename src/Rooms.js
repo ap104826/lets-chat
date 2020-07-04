@@ -7,15 +7,25 @@ import ApiContext from './ApiContext'
 export default class Rooms extends Component {
 
     static contextType = ApiContext
+    handleformSubmit = e => {
+        e.preventDefault()
+        const form = e.currentTarget
+        const roomName = form['room-name'].value
+        console.log(roomName)
+        this.context.addRoom(roomName)
+    }
+
     render() {
         const { rooms = [] } = this.context
 
         return (
 
             <div>
-                <input type="text" className="input-box" placeholder="Type a new Room" />
+                <form onSubmit={(e) => this.handleformSubmit(e)}>
+                    <input type="text" className="input-box" required name='room-name' placeholder="Type a new Room" />
 
-                <button type="button" className="signup-btn">Create</button>
+                    <button type="submit" className="signup-btn">Create</button>
+                </form>
                 <hr />
 
                 <label htmlFor="rooms">Choose a Room:</label>

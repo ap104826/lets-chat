@@ -6,6 +6,7 @@ import Rooms from './Rooms'
 import Register from './Register'
 import './App.css'
 import ApiContext from './ApiContext'
+import RoomNav from './RoomNav'
 
 
 
@@ -46,6 +47,10 @@ class App extends Component {
     }]
 
   }
+  constructor(props) {
+    super(props)
+    this.handleAddNewRoom = this.handleAddNewRoom.bind(this)
+  }
 
 
   handleAddMessage = (message) => {
@@ -57,20 +62,39 @@ class App extends Component {
     })
   }
 
+  handleAddNewRoom = roomName => {
+    console.log(roomName)
+    this.setState({
+      rooms: [
+        ...this.state.rooms,
+        { name: roomName, id: this.state.rooms.length + 1 }
+      ]
+    })
+  }
+
 
   render() {
     const value = {
       addMessage: this.handleAddMessage,
+      addRoom: this.handleAddNewRoom,
       users: this.state.users,
       rooms: this.state.rooms,
       messages: this.state.messages,
     }
+
+
     return (
       <ApiContext.Provider value={value}>
         <div className="App">
           <header className="App_header">
             <h1>LetsChat</h1>
-            <h2>Cooking</h2>
+
+            <Route
+              path='/rooms/:room_id'
+              render={(props) => <RoomNav {...props} />}
+            />
+
+
           </header>
           <Route
             exact

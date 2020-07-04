@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import ApiContext from './ApiContext'
 import { getMessagesForRoom } from './messages-helpers'
-import { NavLink } from 'react-router-dom';
-import { Route, Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-
 
 
 export default class Room extends Component {
@@ -24,6 +19,7 @@ export default class Room extends Component {
         }
         this.props.history.push(`/room/${roomId}`)
     }
+
 
     handleSubmit = e => {
         e.preventDefault()
