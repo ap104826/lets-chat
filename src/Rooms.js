@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import rooms from './Rooms'
 import ApiContext from './ApiContext'
+import './Room.css'
 
 
 export default class Rooms extends Component {
@@ -20,11 +21,13 @@ export default class Rooms extends Component {
 
         return (
 
-            <div>
+            <div className="room_form">
                 <form onSubmit={(e) => this.handleformSubmit(e)}>
-                    <input type="text" className="input-box" required name='room-name' placeholder="Type a new Room" />
+
+                    <input type="text" className="input_box" required name='room-name' placeholder="Type a new Room" />
 
                     <button type="submit" className="signup-btn">Create</button>
+
                 </form>
                 <hr />
 
@@ -41,7 +44,7 @@ export default class Rooms extends Component {
                             </NavLink>
                         </li>)}
                 </ul>
-            </div>
+            </div >
         )
 
     }

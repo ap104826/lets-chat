@@ -77,7 +77,7 @@ export default class Room extends Component {
                 </div>
                 <form className="chat_message" onSubmit={(e) => this.handleSubmit(e)}>
                     <input name="message-to-send" className="message_input" id="message-to-send" placeholder="Type your message" />
-                    <button>Send</button>
+                    <button className="message_send">Send</button>
                 </form>
 
             </div>

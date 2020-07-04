@@ -20,6 +20,7 @@ export default class RoomNav extends Component {
             <h2>{room.name}</h2>
             <div>
                 <NavLink to="/">Leave Room</NavLink>
+                <br />
                 <NavLink to="/">Create Room</NavLink>
             </div>
         </>)
