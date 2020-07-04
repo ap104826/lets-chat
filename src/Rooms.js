@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import rooms from './Rooms'
+import ApiContext from './ApiContext'
 
-export default class Room extends Component {
+
+export default class Rooms extends Component {
+
+    static contextType = ApiContext
     render() {
+        const { rooms = [] } = this.context
+
         return (
             <div>
                 <a className="LeaveRoom_button" type="button" href="/Leave Room">Logout</a>
@@ -10,17 +18,21 @@ export default class Room extends Component {
 
                     <button type="button" className="signup-btn">Create</button>
                     <hr />
-                    <form>
-                        <label htmlFor="rooms">Choose a Room:</label>
-                        <br></br>
-                        <select name="rooms" id="room">
-                            <option value="travel">Travel</option>
-                            <option value="cooking">Cooking</option>
-                            <option value="Homes">Homes</option>
-                            <option value="Gardening">Gardening</option>
-                        </select>
-                        <input type="submit" value="Submit" />
-                    </form>
+
+                    <label htmlFor="rooms">Choose a Room:</label>
+                    <br></br>
+                    <ul>
+                        {rooms.map(room =>
+                            <li key={room.id}>
+                                <NavLink
+                                    to={`/rooms/${room.id}`}
+                                >
+                                    {room.name}
+
+                                </NavLink>
+                            </li>)}
+                    </ul>
+
 
                 </div>
 

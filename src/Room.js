@@ -4,6 +4,7 @@ import { getMessagesForRoom } from './messages-helpers'
 import { NavLink } from 'react-router-dom';
 
 
+
 export default class Room extends Component {
     static defaultProps = {
         match: {

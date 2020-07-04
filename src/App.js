@@ -70,6 +70,7 @@ class App extends Component {
         <div className="App">
           <header className="App_header">
             <h1>LetsChat</h1>
+            <h2>Cooking</h2>
           </header>
           <Route
             exact

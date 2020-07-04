@@ -1,5 +1,7 @@
 .App_header {
   display: flex;
+  justify-content: space-between;
+  padding: 0px 10px 0px 10px;
   border: black;
   border-style: solid;
   border-width: thin; 
@@ -91,5 +93,4 @@ li {
   display: flex;
   flex-direction: column;
 }
-
 
