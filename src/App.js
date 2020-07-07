@@ -56,6 +56,24 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.handleAddNewRoom = this.handleAddNewRoom.bind(this)
+    this.handleDeleteRoom = this.handleDeleteRoom.bind(this)
+  }
+
+  handleDeleteRoom = roomId => {
+    return fetch(`${config.API_ENDPOINT}/rooms/${roomId}`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json'
+      },
+    })
+      .then(() => {
+        this.setState({
+          rooms: this.state.rooms.filter(room => room.id !== roomId)
+        })
+      })
+      .catch(error => {
+        console.error({ error })
+      })
   }
 
 
@@ -108,6 +126,7 @@ class App extends Component {
     const value = {
       addMessage: this.handleAddMessage,
       addRoom: this.handleAddNewRoom,
+      deleteRoom: this.handleDeleteRoom,
       users: this.state.users,
       rooms: this.state.rooms,
       messages: this.state.messages,

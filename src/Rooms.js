@@ -7,7 +7,17 @@ import './Room.css'
 
 export default class Rooms extends Component {
 
+
     static contextType = ApiContext
+
+    handleClickDelete = (e, roomId) => {
+        e.preventDefault()
+        if (window.confirm("Are you sure you want to delete this room?")) {
+            this.context.deleteRoom(roomId)
+        }
+    }
+
+
     handleformSubmit = e => {
         e.preventDefault()
         const form = e.currentTarget
@@ -42,6 +52,9 @@ export default class Rooms extends Component {
                                 {room.name}
 
                             </NavLink>
+
+                            <a href='' onClick={(e) => this.handleClickDelete(e, room.id)}>Delete</a>
+
                         </li>)}
                 </ul>
             </div >
