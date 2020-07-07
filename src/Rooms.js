@@ -12,8 +12,11 @@ export default class Rooms extends Component {
         e.preventDefault()
         const form = e.currentTarget
         const roomName = form['room-name'].value
-        console.log(roomName)
         this.context.addRoom(roomName)
+            .then(room => {
+
+                this.props.history.push(`/rooms/${room.id}`)
+            })
     }
 
     render() {
@@ -23,11 +26,8 @@ export default class Rooms extends Component {
 
             <div className="room_form">
                 <form onSubmit={(e) => this.handleformSubmit(e)}>
-
                     <input type="text" className="input_box" required name='room-name' placeholder="Type a new Room" />
-
-                    <button type="submit" className="signup-btn">Create</button>
-
+                    <input type="submit" className="signup-btn" value="Create" />
                 </form>
                 <hr />
 

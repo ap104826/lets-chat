@@ -6,23 +6,14 @@ import Rooms from './Rooms'
 import './App.css'
 import ApiContext from './ApiContext'
 import RoomNav from './RoomNav'
+import config from './config'
+
 
 
 
 class App extends Component {
   state = {
-    users: [{
-      name: 'Arpita'
-    }, {
-      name: 'Nachiket'
-    }],
-    rooms: [{
-      name: 'Cooking',
-      id: 1
-    }, {
-      name: 'Travel',
-      id: 2
-    }],
+    rooms: [],
     messages: [{
       message: 'Hi Arpita, how are you? How is the project coming along?',
       time: new Date(),
@@ -46,6 +37,22 @@ class App extends Component {
     }]
 
   }
+  componentDidMount() {
+    fetch(`${config.API_ENDPOINT}/rooms`)
+      .then(roomsRes => {
+        if (!roomsRes.ok)
+          return roomsRes.json().then(e => Promise.reject(e))
+
+        return roomsRes.json()
+      })
+      .then((rooms) => {
+        this.setState({ rooms })
+      })
+      .catch(error => {
+        console.error({ error })
+      })
+
+  }
   constructor(props) {
     super(props)
     this.handleAddNewRoom = this.handleAddNewRoom.bind(this)
@@ -62,15 +69,40 @@ class App extends Component {
   }
 
   handleAddNewRoom = roomName => {
-    console.log(roomName)
-    this.setState({
-      rooms: [
-        ...this.state.rooms,
-        { name: roomName, id: this.state.rooms.length + 1 }
-      ]
+    return fetch(`${config.API_ENDPOINT}/rooms`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({ name: roomName }),
     })
+      .then(res => {
+        if (!res.ok)
+          return res.json().then(e => Promise.reject(e))
+        return res.json()
+      })
+      .then(room => {
+        this.setState({
+          rooms: [
+            ...this.state.rooms,
+            room
+          ]
+        })
+        return room;
+      })
+      .catch(error => {
+        console.error({ error })
+      })
+
   }
 
+  renderNavRoutes() {
+    return (
+      <>
+        {[]}
+      </>
+    )
+  }
 
   render() {
     const value = {
@@ -108,7 +140,7 @@ class App extends Component {
           <Route
             exact
             path='/'
-            component={Rooms}
+            render={(props) => <Rooms {...props} />}
           />
 
         </div>

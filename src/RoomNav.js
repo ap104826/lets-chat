@@ -15,6 +15,10 @@ export default class RoomNav extends Component {
         const { rooms = [] } = this.context
         //getting a room given its roomId
         const room = getRoomFromRoomId(rooms, parseInt(room_id))
+
+        if (!room) {
+            return <> </>
+        }
         //use nav links to link to the home page
         return (<>
             <h2>{room.name}</h2>
