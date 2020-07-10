@@ -7,9 +7,9 @@ import './App.css'
 import ApiContext from './ApiContext'
 import RoomNav from './RoomNav'
 import config from './config'
+import io from 'socket.io-client'
 
-
-
+const socket = io.connect(config.API_ENDPOINT)
 
 class App extends Component {
   state = {
@@ -38,6 +38,12 @@ class App extends Component {
 
   }
   componentDidMount() {
+
+    socket.on('message', (message) => {
+      this.setState({
+        messages: [...this.state.messages, message]
+      })
+    })
     fetch(`${config.API_ENDPOINT}/rooms`)
       .then(roomsRes => {
         if (!roomsRes.ok)
@@ -130,6 +136,7 @@ class App extends Component {
       users: this.state.users,
       rooms: this.state.rooms,
       messages: this.state.messages,
+      socket
     }
 
 
