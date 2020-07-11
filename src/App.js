@@ -8,6 +8,7 @@ import ApiContext from './ApiContext'
 import RoomNav from './RoomNav'
 import config from './config'
 import io from 'socket.io-client'
+import Register from './Register'
 
 const socket = io.connect(config.API_ENDPOINT)
 
@@ -63,6 +64,34 @@ class App extends Component {
     super(props)
     this.handleAddNewRoom = this.handleAddNewRoom.bind(this)
     this.handleDeleteRoom = this.handleDeleteRoom.bind(this)
+    this.handleRegister = this.handleRegister.bind(this)
+  }
+  handleRegister = (userName, password) => {
+    return fetch(`${config.API_ENDPOINT}/users`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({ name: userName, password: password }),
+    })
+      .then(res => {
+        if (!res.ok)
+          return res.json().then(e => Promise.reject(e))
+        return res.json()
+      })
+      .then(user => {
+        this.setState({
+          users: [
+            ...this.state.users,
+            user
+          ]
+        })
+        return user;
+      })
+      .catch(error => {
+        console.error({ error })
+      })
+
   }
 
   handleDeleteRoom = roomId => {
@@ -90,7 +119,9 @@ class App extends Component {
         message
       ]
     })
+
   }
+
 
   handleAddNewRoom = roomName => {
     return fetch(`${config.API_ENDPOINT}/rooms`, {
@@ -133,6 +164,7 @@ class App extends Component {
       addMessage: this.handleAddMessage,
       addRoom: this.handleAddNewRoom,
       deleteRoom: this.handleDeleteRoom,
+      register: this.handleRegister,
       users: this.state.users,
       rooms: this.state.rooms,
       messages: this.state.messages,
@@ -162,6 +194,10 @@ class App extends Component {
           <Route
             path='/login'
             component={Login}
+          />
+          <Route
+            path='/register'
+            component={Register}
           />
           <Route
             exact
