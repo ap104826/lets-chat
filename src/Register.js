@@ -17,7 +17,7 @@ export default class Register extends Component {
         this.context.register(userName, password)
             .then(userName => {
 
-                this.props.history.push(`/register/users`)
+                this.props.history.push(`/`)
             })
     }
 

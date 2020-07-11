@@ -65,6 +65,7 @@ class App extends Component {
     this.handleAddNewRoom = this.handleAddNewRoom.bind(this)
     this.handleDeleteRoom = this.handleDeleteRoom.bind(this)
     this.handleRegister = this.handleRegister.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
   }
   handleRegister = (userName, password) => {
     return fetch(`${config.API_ENDPOINT}/users`, {
@@ -72,7 +73,7 @@ class App extends Component {
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify({ name: userName, password: password }),
+      body: JSON.stringify({ userName: userName, password: password }),
     })
       .then(res => {
         if (!res.ok)
@@ -91,6 +92,34 @@ class App extends Component {
       .catch(error => {
         console.error({ error })
       })
+
+  }
+
+  handleLogin = (userName, password) => {
+    return fetch(`${config.API_ENDPOINT}/users/login`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({ userName: userName, password: password }),
+    })
+    // .then(res => {
+    //   if (!res.ok)
+    //     return res.json().then(e => Promise.reject(e))
+    //   return res.json()
+    // })
+    // .then(user => {
+    //   this.setState({
+    //     users: [
+    //       ...this.state.users,
+    //       user
+    //     ]
+    //   })
+    //   return user;
+    // })
+    // .catch(error => {
+    //   console.error({ error })
+    // })
 
   }
 
@@ -165,6 +194,7 @@ class App extends Component {
       addRoom: this.handleAddNewRoom,
       deleteRoom: this.handleDeleteRoom,
       register: this.handleRegister,
+      login: this.handleLogin,
       users: this.state.users,
       rooms: this.state.rooms,
       messages: this.state.messages,

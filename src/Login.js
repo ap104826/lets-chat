@@ -11,11 +11,12 @@ export default class Login extends Component {
         debugger
         e.preventDefault()
         const form = e.currentTarget
-        const userName = form['Email-name'].value
-        this.context.addUsername(userName)
-            .then(name => {
+        const userName = form['Email'].value
+        const password = form['Password'].value
+        this.context.login(userName, password)
+            .then(userName => {
 
-                this.props.history.push(`/login/users`)
+                this.props.history.push(`/`)
             })
     }
 
@@ -32,8 +33,8 @@ export default class Login extends Component {
 
                     <h1> Login</h1>
                     <form className="input-group" onSubmit={(e) => this.handleSubmit(e)}>
-                        <input type="email" className="input_field" required name='Email-name' placeholder="Email" required />
-                        <input type="password" className="input_field" required name='Password-name' placeholder="Password" required />
+                        <input type="email" className="input_field" required name='Email' placeholder="Email" required />
+                        <input type="password" className="input_field" required name='Password' placeholder="Password" required />
                         <button type="submit" className="signup_btn">Sign in</button>
                         <hr />
 
