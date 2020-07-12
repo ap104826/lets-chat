@@ -21,8 +21,6 @@ export default class Login extends Component {
     }
 
 
-
-
     render() {
         const { userNames = [], passwords = [] } = this.context
 
@@ -36,6 +34,7 @@ export default class Login extends Component {
                         <input type="email" className="input_field" required name='Email' placeholder="Email" required />
                         <input type="password" className="input_field" required name='Password' placeholder="Password" required />
                         <button type="submit" className="signup_btn">Sign in</button>
+
                         <hr />
 
                     </form>

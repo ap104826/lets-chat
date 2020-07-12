@@ -36,7 +36,7 @@ export default class Register extends Component {
                         <input type="password" classname="password confirmation" placeholder="Password confirmation" required />
                         <button type="submit" className="signup_btn">Sign up</button>
                         <hr />
-                        <p>Do you have an account ? <a href="#">Sign in</a></p>
+                        <p>Do you have an account ? <a href="/login">Sign in</a></p>
                     </form>
                 </div>
 
