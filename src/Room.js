@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import ApiContext from './ApiContext'
 import { getMessagesForRoom } from './messages-helpers'
+import socketIOClient from "socket.io-client";
+import config from './config'
+
 
 
 export default class Room extends Component {
@@ -35,7 +38,12 @@ export default class Room extends Component {
             room_id: parseInt(room_id)
         }
         // emit message on context and and event occurs which sends the message
-        this.context.socket.emit('message', message)
+
+        const socket = socketIOClient(config.API_ENDPOINT);
+        socket.emit('message', message) // change 'red' to this.state.color
+
+
+        // this.context.socket.emit('message', message)
         this.context.addMessage(message)
         form['message-to-send'].value = ''
     }

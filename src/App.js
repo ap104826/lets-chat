@@ -10,7 +10,7 @@ import config from './config'
 import io from 'socket.io-client'
 import Register from './Register'
 
-const socket = io.connect(config.API_ENDPOINT)
+const socket = io('http://localhost:8001')
 
 class App extends Component {
   state = {
@@ -39,8 +39,12 @@ class App extends Component {
 
   }
   componentDidMount() {
+    // socket.on('connect', function () {
+    //   console.log('a user connected')
+    // });
 
     socket.on('message', (message) => {
+      debugger
       this.setState({
         messages: [...this.state.messages, message]
       })

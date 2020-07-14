@@ -8,7 +8,6 @@ export default class Login extends Component {
     static contextType = ApiContext
 
     handleSubmit = e => {
-        debugger
         e.preventDefault()
         const form = e.currentTarget
         const userName = form['Email'].value
