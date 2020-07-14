@@ -39,12 +39,12 @@ export default class Room extends Component {
         }
         // emit message on context and and event occurs which sends the message
 
-        const socket = socketIOClient(config.API_ENDPOINT);
+        const socket = socketIOClient('http://localhost:8001');
         socket.emit('message', message) // change 'red' to this.state.color
 
 
         // this.context.socket.emit('message', message)
-        this.context.addMessage(message)
+        // this.context.addMessage(message)
         form['message-to-send'].value = ''
     }
 

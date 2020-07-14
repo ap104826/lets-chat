@@ -44,7 +44,7 @@ class App extends Component {
     // });
 
     socket.on('message', (message) => {
-      debugger
+      message.time = new Date(message.time)
       this.setState({
         messages: [...this.state.messages, message]
       })
