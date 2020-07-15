@@ -43,12 +43,7 @@ class App extends Component {
     //   console.log('a user connected')
     // });
 
-    socket.on('message', (message) => {
-      message.time = new Date(message.time)
-      this.setState({
-        messages: [...this.state.messages, message]
-      })
-    })
+
     fetch(`${config.API_ENDPOINT}/rooms`)
       .then(roomsRes => {
         if (!roomsRes.ok)

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import rooms from './Rooms'
 import ApiContext from './ApiContext'
 import './Room.css'
 

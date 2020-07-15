@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import ApiContext from './ApiContext'
-import Room from './Room';
-import Rooms from './Rooms';
 import { NavLink } from 'react-router-dom';
 
 import { getRoomFromRoomId } from './messages-helpers'

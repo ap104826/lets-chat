@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import ApiContext from './ApiContext'
-import { getMessagesForRoom } from './messages-helpers'
 import socketIOClient from "socket.io-client";
 import config from './config'
+import io from 'socket.io-client'
 
+
+const socket = io('http://localhost:8001')
 
 
 export default class Room extends Component {
@@ -14,7 +16,37 @@ export default class Room extends Component {
     }
     static contextType = ApiContext
 
+    state = {
+        messages: [],
+    };
 
+    componentDidMount() {
+        const { room_id } = this.props.match.params
+
+        socket.on('message', (message) => {
+            debugger
+            if (message.room_id !== parseInt(room_id)) {
+                return
+            }
+            this.setState({
+                messages: [...this.state.messages, message]
+            })
+        })
+
+        //read the room id from the browser url and pass it to the api url
+        fetch(`${config.API_ENDPOINT}/rooms/${room_id}/messages`)
+            .then(messages => {
+                if (!messages.ok)
+                    return messages.json().then(e => Promise.reject(e))
+
+                return messages.json()
+
+            })
+            //we get the messages and set it on the state
+            .then(messages => this.setState({
+                messages: messages
+            }))
+    }
 
     roomSelected(e) {
         const roomId = e.target.value
@@ -50,9 +82,7 @@ export default class Room extends Component {
 
     render() {
 
-        const { room_id } = this.props.match.params
-        const { users = [], rooms = [], messages = [] } = this.context
-        const messagesForRoom = getMessagesForRoom(messages, parseInt(room_id))
+        const { users = [] } = this.context
 
         return (
             <div className="chat_container">
@@ -71,9 +101,9 @@ export default class Room extends Component {
                     <div className="chat_messages">
                         <div className="chat-history">
                             <ul>
-                                {messagesForRoom.map((message, index) => <li key={index}>
+                                {this.state.messages.map((message, index) => <li key={index}>
                                     <div className="message-data align-right">
-                                        <span className="message-data-time">{message.time.getHours()}:{message.time.getMinutes()}</span> &nbsp; &nbsp;
+                                        <span className="message-data-time">{message.modified}:{message.modified}</span> &nbsp; &nbsp;
               <span className="message-data-name">{message.user}</span>
 
                                     </div>
