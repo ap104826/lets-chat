@@ -12,8 +12,16 @@ export default class Register extends Component {
 
         e.preventDefault()
         const form = e.currentTarget
-        const userName = form['register'].value
-        const password = form['password'].value
+        const password1 = form.password1.value
+        const password2 = form.password2.value
+
+        if (password1 !== password2) {
+            alert("Password doesn't match");
+            return;
+        }
+
+        const userName = form['email'].value
+        const password = form['password1'].value
         this.context.register(userName, password)
             .then(userName => {
 
@@ -31,17 +39,17 @@ export default class Register extends Component {
 
                     <h1> Register</h1>
                     <form className="input-group" onSubmit={(e) => this.handleRegisterSubmit(e)}>
-                        <input type="email" className="input_field" required name='register' placeholder="Email" required />
-                        <input type="password" className="input_field" required name='password' placeholder="Password" required />
-                        <input type="password" classname="password confirmation" placeholder="Password confirmation" required />
+                        <input type="email" className="input_field" required name='email' placeholder="Email" required />
+                        <input type="password" className="password1" required name='password1' placeholder="Password" required />
+                        <input type="password" classname="password2" required name='password2' placeholder="Password confirmation" required />
                         <button type="submit" className="signup_btn">Sign up</button>
                         <hr />
                         <p>Do you have an account ? <a href="/login">Sign in</a></p>
+
                     </form>
+
                 </div>
-
             </div>
-
         )
     }
 }

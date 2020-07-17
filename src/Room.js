@@ -18,6 +18,7 @@ export default class Room extends Component {
 
     state = {
         messages: [],
+        users: []
     };
 
     componentDidMount() {
@@ -46,6 +47,22 @@ export default class Room extends Component {
             .then(messages => this.setState({
                 messages: messages
             }))
+
+        //read the room id from the browser url and pass it to the api url
+        fetch(`${config.API_ENDPOINT}/rooms/${room_id}/users`)
+            .then(res => {
+                if (!res.ok)
+                    return res.json().then(e => Promise.reject(e))
+
+                return res.json()
+
+            })
+            //we get the messages and set it on the state
+            .then(users => {
+                this.setState({
+                    users: users
+                })
+            })
     }
 
     roomSelected(e) {
@@ -69,20 +86,13 @@ export default class Room extends Component {
             time: new Date(),
             room_id: parseInt(room_id)
         }
-        // emit message on context and and event occurs which sends the message
-
         const socket = socketIOClient('http://localhost:8001');
         socket.emit('message', message) // change 'red' to this.state.color
 
-
-        // this.context.socket.emit('message', message)
-        // this.context.addMessage(message)
         form['message-to-send'].value = ''
     }
 
     render() {
-
-        const { users = [] } = this.context
 
         return (
             <div className="chat_container">
@@ -91,7 +101,7 @@ export default class Room extends Component {
                         <div className="chat_users">
                             <h2>Users</h2>
                             <ul>
-                                {users.map((user, index) => <li key={index}>{user.name}</li>)}
+                                {this.state.users.map((user, index) => <li key={index}>{user.user_name}</li>)}
                             </ul>
                         </div>
 

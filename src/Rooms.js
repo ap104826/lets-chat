@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import ApiContext from './ApiContext'
 import './Room.css'
+import io from 'socket.io-client'
+import socketIOClient from "socket.io-client";
+const socket = io('http://localhost:8001')
+
+
+
 
 
 export default class Rooms extends Component {
@@ -15,6 +21,16 @@ export default class Rooms extends Component {
             this.context.deleteRoom(roomId)
         }
     }
+    handleOnClick = (e, roomId) => {
+        e.preventDefault()
+        this.props.history.push(`/rooms/${roomId}`)
+        //send a join message with roomId
+        const socket = socketIOClient('http://localhost:8001');
+        //emit- that user has joined with an event
+        //notify server that a new user wants to join the room
+        socket.emit('userJoined', { roomId, userId: 6 })
+    }
+
 
 
     handleformSubmit = e => {
@@ -23,6 +39,7 @@ export default class Rooms extends Component {
         const roomName = form['room-name'].value
         this.context.addRoom(roomName)
             .then(room => {
+                debugger
 
                 this.props.history.push(`/rooms/${room.id}`)
             })
@@ -45,18 +62,21 @@ export default class Rooms extends Component {
                 <ul>
                     {rooms.map(room =>
                         <li key={room.id}>
-                            <NavLink
-                                to={`/rooms/${room.id}`}
-                            >
-                                {room.name}
 
-                            </NavLink>
+
+                            <a href='' onClick={(e) => this.handleOnClick(e, room.id)}>{room.name}</a>
+
+                            {/* to={`/rooms/${room.id}`} */}
+
+
+
+
 
                             <a href='' onClick={(e) => this.handleClickDelete(e, room.id)}>Delete</a>
 
                         </li>)}
                 </ul>
-            </div >
+            </div>
         )
 
     }
