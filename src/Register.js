@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './Login.css'
 import ApiContext from './ApiContext'
+import TokenService from './token-service';
+import config from './config'
 
 
 export default class Register extends Component {
@@ -22,10 +24,26 @@ export default class Register extends Component {
 
         const userName = form['email'].value
         const password = form['password1'].value
-        this.context.register(userName, password)
-            .then(userName => {
 
+        return fetch(`${config.API_ENDPOINT}/users`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ userName: userName, password: password }),
+        })
+            .then(res => {
+                if (!res.ok)
+                    return res.json().then(e => Promise.reject(e))
+                return res.json()
+            })
+            .then(user => {
+                const token = TokenService.makeBasicAuthToken(user.userName, user.password)
+                TokenService.saveAuthToken(token);
                 this.props.history.push(`/`)
+            })
+            .catch(error => {
+                console.error({ error })
             })
     }
 

@@ -6,9 +6,13 @@ import Rooms from './Rooms'
 import './App.css'
 import ApiContext from './ApiContext'
 import RoomNav from './RoomNav'
+import AppNav from './AppNav'
 import config from './config'
 import io from 'socket.io-client'
 import Register from './Register'
+import PrivateRoute from './PrivateRoute'
+import TokenService from './token-service'
+
 
 const socket = io('http://localhost:8001')
 
@@ -44,7 +48,11 @@ class App extends Component {
     // });
 
 
-    fetch(`${config.API_ENDPOINT}/rooms`)
+    fetch(`${config.API_ENDPOINT}/rooms`, {
+      headers: {
+        authorization: `bearer ${TokenService.getAuthToken()}`
+      }
+    })
       .then(roomsRes => {
         if (!roomsRes.ok)
           return roomsRes.json().then(e => Promise.reject(e))
@@ -63,67 +71,14 @@ class App extends Component {
     super(props)
     this.handleAddNewRoom = this.handleAddNewRoom.bind(this)
     this.handleDeleteRoom = this.handleDeleteRoom.bind(this)
-    this.handleRegister = this.handleRegister.bind(this)
-    this.handleLogin = this.handleLogin.bind(this)
-  }
-  handleRegister = (userName, password) => {
-    return fetch(`${config.API_ENDPOINT}/users`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({ userName: userName, password: password }),
-    })
-      .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e))
-        return res.json()
-      })
-      .then(user => {
-        this.setState({
-          users: [
-            ...this.state.users,
-            user
-          ]
-        })
-        return user;
-      })
-      .catch(error => {
-        console.error({ error })
-      })
-
-  }
-
-  handleLogin = (userName, password) => {
-    return fetch(`${config.API_ENDPOINT}/users/login`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({ userName: userName, password: password }),
-    })
-    // .then(res => {
-    //   if (!res.ok)
-    //     return res.json().then(e => Promise.reject(e))
-    //   return res.json()
-    // })
-    // .then(user => {
-    //   this.setState({
-    //     users: [
-    //       ...this.state.users,
-    //       user
-    //     ]
-    //   })
-    //   return user;
-    // })
-    // .catch(error => {
-    //   console.error({ error })
-    // })
-
   }
 
   handleDeleteRoom = roomId => {
     return fetch(`${config.API_ENDPOINT}/rooms/${roomId}`, {
+      headers: {
+        authorization: `bearer ${TokenService.getAuthToken()}`
+      }
+    }, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json'
@@ -153,6 +108,10 @@ class App extends Component {
 
   handleAddNewRoom = roomName => {
     return fetch(`${config.API_ENDPOINT}/rooms`, {
+      headers: {
+        authorization: `bearer ${TokenService.getAuthToken()}`
+      }
+    }, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
@@ -192,8 +151,6 @@ class App extends Component {
       addMessage: this.handleAddMessage,
       addRoom: this.handleAddNewRoom,
       deleteRoom: this.handleDeleteRoom,
-      register: this.handleRegister,
-      login: this.handleLogin,
       users: this.state.users,
       rooms: this.state.rooms,
       messages: this.state.messages,
@@ -206,18 +163,22 @@ class App extends Component {
         <div className="App">
           <header className="App_header">
             <h1>LetsChat</h1>
-
-            <Route
+            <PrivateRoute
+              exact
+              path='/'
+              component={AppNav}
+            />
+            <PrivateRoute
               path='/rooms/:room_id'
-              render={(props) => <RoomNav {...props} />}
+              component={RoomNav}
             />
 
 
           </header>
-          <Route
+          <PrivateRoute
             exact
             path='/rooms/:room_id'
-            render={(props) => <Room {...props} />}
+            component={Room}
 
           />
           <Route
@@ -228,10 +189,10 @@ class App extends Component {
             path='/register'
             component={Register}
           />
-          <Route
+          <PrivateRoute
             exact
             path='/'
-            render={(props) => <Rooms {...props} />}
+            component={Rooms}
           />
 
         </div>

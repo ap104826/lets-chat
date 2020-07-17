@@ -16,7 +16,7 @@ export default class RoomNav extends Component {
         const socket = socketIOClient('http://localhost:8001');
         //emit- that user has joined with an event
         //notify server that a new user wants to join the room
-        socket.emit('userLeft', { roomId, userId: 6 })
+        socket.emit('userLeft', { roomId, userId: 20 })
     }
     render() {
         //getting the room id from the url
@@ -34,11 +34,6 @@ export default class RoomNav extends Component {
             <h2>{room.name}</h2>
             <div>
                 <a href='' onClick={(e) => this.handleLeaveRoom(e, room.id)}>Leave Room</a>
-                {/* <NavLink to="/">Leave Room</NavLink> */}
-
-
-                <br />
-                <NavLink to="/">Create Room</NavLink>
             </div>
         </>)
     }

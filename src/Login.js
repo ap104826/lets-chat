@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './Login.css'
 import ApiContext from './ApiContext'
+import TokenService from './token-service'
+import config from './config'
 
 
 export default class Login extends Component {
@@ -12,17 +14,32 @@ export default class Login extends Component {
         const form = e.currentTarget
         const userName = form['Email'].value
         const password = form['Password'].value
-        this.context.login(userName, password)
-            .then(userName => {
 
+        return fetch(`${config.API_ENDPOINT}/users/login`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ userName, password }),
+        })
+            .then(res => {
+                if (!res.ok)
+                    return res.json().then(e => Promise.reject(e))
+                return res.json()
+            })
+            .then((response) => {
+                //create and save the token
+                const token = response.authToken;
+                TokenService.saveAuthToken(token)
                 this.props.history.push(`/`)
+            })
+            .catch(error => {
+                console.error({ error })
             })
     }
 
 
     render() {
-        const { userNames = [], passwords = [] } = this.context
-
         return (
             <div className="chat">
                 <title>Login </title>
@@ -37,7 +54,10 @@ export default class Login extends Component {
                         <hr />
 
                     </form>
+
                 </div>
+
+                <p>Don't have an account ? <a href="/register">Register</a></p>
 
             </div>
 

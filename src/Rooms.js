@@ -7,9 +7,6 @@ import socketIOClient from "socket.io-client";
 const socket = io('http://localhost:8001')
 
 
-
-
-
 export default class Rooms extends Component {
 
 
@@ -28,10 +25,8 @@ export default class Rooms extends Component {
         const socket = socketIOClient('http://localhost:8001');
         //emit- that user has joined with an event
         //notify server that a new user wants to join the room
-        socket.emit('userJoined', { roomId, userId: 6 })
+        socket.emit('userJoined', { roomId, userId: 20 })
     }
-
-
 
     handleformSubmit = e => {
         e.preventDefault()

@@ -3,6 +3,7 @@ import ApiContext from './ApiContext'
 import socketIOClient from "socket.io-client";
 import config from './config'
 import io from 'socket.io-client'
+import TokenService from './token-service'
 
 
 const socket = io('http://localhost:8001')
@@ -34,8 +35,29 @@ export default class Room extends Component {
             })
         })
 
+        socket.on('userJoined', (user) => {
+            if (user.roomId !== parseInt(room_id)) {
+                return
+            }
+            this.setState({
+                users: [...this.state.users, user]
+            })
+        })
+
+        socket.on('userLeft', (user) => {
+            if (user.roomId !== parseInt(room_id)) {
+                return
+            }
+            this.setState({
+                users: this.state.users.filter(u => u.id !== user.id)
+            })
+        })
         //read the room id from the browser url and pass it to the api url
-        fetch(`${config.API_ENDPOINT}/rooms/${room_id}/messages`)
+        fetch(`${config.API_ENDPOINT}/rooms/${room_id}/messages`, {
+            headers: {
+                authorization: `bearer ${TokenService.getAuthToken()}`
+            }
+        })
             .then(messages => {
                 if (!messages.ok)
                     return messages.json().then(e => Promise.reject(e))
@@ -49,7 +71,11 @@ export default class Room extends Component {
             }))
 
         //read the room id from the browser url and pass it to the api url
-        fetch(`${config.API_ENDPOINT}/rooms/${room_id}/users`)
+        fetch(`${config.API_ENDPOINT}/rooms/${room_id}/users`, {
+            headers: {
+                authorization: `bearer ${TokenService.getAuthToken()}`
+            }
+        })
             .then(res => {
                 if (!res.ok)
                     return res.json().then(e => Promise.reject(e))
@@ -60,7 +86,7 @@ export default class Room extends Component {
             //we get the messages and set it on the state
             .then(users => {
                 this.setState({
-                    users: users
+                    users: this.state.users.concat(users)
                 })
             })
     }
