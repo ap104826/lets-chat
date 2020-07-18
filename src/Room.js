@@ -165,9 +165,9 @@ export default class Room extends Component {
                     <div className="main_chat">
                         <div className="chat_nav">
                             <div className="chat_users">
-                                <h2>Users</h2>
+                                <h2 className="room__users-heading">Users</h2>
                                 <ul>
-                                    {this.state.users.map((user, index) => <li key={index}>{user.user_name}</li>)}
+                                    {this.state.users.map((user, index) => <li className="rooms__list-item" key={index}>{user.user_name}</li>)}
                                 </ul>
                             </div>
 
@@ -175,27 +175,27 @@ export default class Room extends Component {
 
 
                         <div className="chat_messages">
-                            <div className="chat-history">
-                                <ul>
-                                    {this.state.messages.map((message, index) => <li key={index}>
-                                        <div className="message-data align-right">
-                                            <span className="message-data-time">{new Date(message.modified).getHours()}:{new Date(message.modified).getMinutes()}</span> &nbsp; &nbsp;
-                <span className="message-data-name">{message.user}</span>
+                            <ul className="room__messages-list">
+                                {this.state.messages.map((message, index) => <li key={index} className="rooms__messages-list-item">
+                                    <div className="message-data align-right">
+                                        <span className="room__message-time">{new Date(message.modified).getHours()}:{new Date(message.modified).getMinutes()}</span> &nbsp; &nbsp;
+            <span className="message-data-name">{message.user}</span>
 
-                                        </div>
-                                        <div className="message other-message float-right">
-                                            {message.message}
-                                        </div>
-                                    </li>)}
+                                    </div>
+                                    <div className="room__message-text">
+                                        {message.message}
+                                    </div>
+                                </li>)}
 
-                                </ul>
-                            </div>
+                            </ul>
+                            <form className="chat_message" onSubmit={(e) => this.handleSubmit(e)}>
+                                <input name="message-to-send" className="sign-up-form__input message_input" id="message-to-send" placeholder="Type your message" />
+                                <button type="submit" className="sign-up-form__login-button message_send-button">Send</button>
+                            </form>
                         </div>
+
                     </div>
-                    <form className="chat_message" onSubmit={(e) => this.handleSubmit(e)}>
-                        <input name="message-to-send" className="message_input" id="message-to-send" placeholder="Type your message" />
-                        <button className="message_send">Send</button>
-                    </form>
+
 
                 </div>
             </>
