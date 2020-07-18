@@ -1,16 +1,39 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import ApiContext from './ApiContext'
 import './Room.css'
 import io from 'socket.io-client'
 import socketIOClient from "socket.io-client";
+import config from './config'
+import TokenService from './token-service'
+import AppNav from './AppNav'
 const socket = io('http://localhost:8001')
-
 
 export default class Rooms extends Component {
 
-
+    state = {
+        rooms: [],
+    }
     static contextType = ApiContext
+    componentDidMount() {
+        fetch(`${config.API_ENDPOINT}/rooms`, {
+            headers: {
+                authorization: `bearer ${TokenService.getAuthToken()}`
+            }
+        })
+            .then(roomsRes => {
+                if (!roomsRes.ok)
+                    return roomsRes.json().then(e => Promise.reject(e))
+
+                return roomsRes.json()
+            })
+            .then((rooms) => {
+                this.setState({ rooms })
+            })
+            .catch(error => {
+                console.error({ error })
+            })
+
+    }
 
     handleClickDelete = (e, roomId) => {
         e.preventDefault()
@@ -25,7 +48,7 @@ export default class Rooms extends Component {
         const socket = socketIOClient('http://localhost:8001');
         //emit- that user has joined with an event
         //notify server that a new user wants to join the room
-        socket.emit('userJoined', { roomId, userId: 20 })
+        socket.emit('userJoined', { roomId, authToken: TokenService.getAuthToken() })
     }
 
     handleformSubmit = e => {
@@ -34,44 +57,48 @@ export default class Rooms extends Component {
         const roomName = form['room-name'].value
         this.context.addRoom(roomName)
             .then(room => {
-                debugger
-
                 this.props.history.push(`/rooms/${room.id}`)
             })
     }
 
     render() {
-        const { rooms = [] } = this.context
+        const { rooms = [] } = this.state
 
         return (
+            <>
+                <header className="App_header">
+                    <AppNav history={this.props.history} />
+                </header>
 
-            <div className="room_form">
-                <form onSubmit={(e) => this.handleformSubmit(e)}>
-                    <input type="text" className="input_box" required name='room-name' placeholder="Type a new Room" />
-                    <input type="submit" className="signup-btn" value="Create" />
-                </form>
-                <hr />
+                <div className="room_form">
+                    <form onSubmit={(e) => this.handleformSubmit(e)}>
+                        <input type="text" className="input_box" required name='room-name' placeholder="Type a new Room" />
+                        <input type="submit" className="signup-btn" value="Create" />
+                    </form>
+                    <hr />
 
-                <label htmlFor="rooms">Choose a Room:</label>
-                <br></br>
-                <ul>
-                    {rooms.map(room =>
-                        <li key={room.id}>
-
-
-                            <a href='' onClick={(e) => this.handleOnClick(e, room.id)}>{room.name}</a>
-
-                            {/* to={`/rooms/${room.id}`} */}
-
+                    <label htmlFor="rooms">Choose a Room:</label>
+                    <br></br>
+                    <ul>
+                        {rooms.map(room =>
+                            <li key={room.id}>
 
 
+                                <a href='' onClick={(e) => this.handleOnClick(e, room.id)}>{room.name}</a>
+
+                                {/* to={`/rooms/${room.id}`} */}
 
 
-                            <a href='' onClick={(e) => this.handleClickDelete(e, room.id)}>Delete</a>
 
-                        </li>)}
-                </ul>
-            </div>
+
+
+                                <a href='' onClick={(e) => this.handleClickDelete(e, room.id)}>Delete</a>
+
+                            </li>)}
+                    </ul>
+                </div>
+            </>
+
         )
 
     }

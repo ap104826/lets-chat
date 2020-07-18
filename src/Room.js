@@ -4,6 +4,7 @@ import socketIOClient from "socket.io-client";
 import config from './config'
 import io from 'socket.io-client'
 import TokenService from './token-service'
+import RoomNav from './RoomNav';
 
 
 const socket = io('http://localhost:8001')
@@ -19,14 +20,14 @@ export default class Room extends Component {
 
     state = {
         messages: [],
-        users: []
+        users: [],
+        room: null
     };
 
     componentDidMount() {
         const { room_id } = this.props.match.params
 
         socket.on('message', (message) => {
-            debugger
             if (message.room_id !== parseInt(room_id)) {
                 return
             }
@@ -52,6 +53,25 @@ export default class Room extends Component {
                 users: this.state.users.filter(u => u.id !== user.id)
             })
         })
+
+        fetch(`${config.API_ENDPOINT}/rooms/${room_id}`, {
+            headers: {
+                authorization: `bearer ${TokenService.getAuthToken()}`
+            }
+        })
+            .then(room => {
+                if (!room.ok)
+                    return room.json().then(e => Promise.reject(e))
+
+                return room.json()
+
+            })
+            //we get the messages and set it on the state
+            .then(room => this.setState({
+                room
+            }))
+
+
         //read the room id from the browser url and pass it to the api url
         fetch(`${config.API_ENDPOINT}/rooms/${room_id}/messages`, {
             headers: {
@@ -121,43 +141,48 @@ export default class Room extends Component {
     render() {
 
         return (
-            <div className="chat_container">
-                <div className="main_chat">
-                    <div className="chat_nav">
-                        <div className="chat_users">
-                            <h2>Users</h2>
-                            <ul>
-                                {this.state.users.map((user, index) => <li key={index}>{user.user_name}</li>)}
-                            </ul>
+            <>
+                <header className="App_header">
+                    <RoomNav {...this.props} room={this.state.room} />
+                </header>
+                <div className="chat_container">
+                    <div className="main_chat">
+                        <div className="chat_nav">
+                            <div className="chat_users">
+                                <h2>Users</h2>
+                                <ul>
+                                    {this.state.users.map((user, index) => <li key={index}>{user.user_name}</li>)}
+                                </ul>
+                            </div>
+
                         </div>
 
-                    </div>
 
+                        <div className="chat_messages">
+                            <div className="chat-history">
+                                <ul>
+                                    {this.state.messages.map((message, index) => <li key={index}>
+                                        <div className="message-data align-right">
+                                            <span className="message-data-time">{message.modified}:{message.modified}</span> &nbsp; &nbsp;
+                <span className="message-data-name">{message.user}</span>
 
-                    <div className="chat_messages">
-                        <div className="chat-history">
-                            <ul>
-                                {this.state.messages.map((message, index) => <li key={index}>
-                                    <div className="message-data align-right">
-                                        <span className="message-data-time">{message.modified}:{message.modified}</span> &nbsp; &nbsp;
-              <span className="message-data-name">{message.user}</span>
+                                        </div>
+                                        <div className="message other-message float-right">
+                                            {message.message}
+                                        </div>
+                                    </li>)}
 
-                                    </div>
-                                    <div className="message other-message float-right">
-                                        {message.message}
-                                    </div>
-                                </li>)}
-
-                            </ul>
+                                </ul>
+                            </div>
                         </div>
                     </div>
+                    <form className="chat_message" onSubmit={(e) => this.handleSubmit(e)}>
+                        <input name="message-to-send" className="message_input" id="message-to-send" placeholder="Type your message" />
+                        <button className="message_send">Send</button>
+                    </form>
+
                 </div>
-                <form className="chat_message" onSubmit={(e) => this.handleSubmit(e)}>
-                    <input name="message-to-send" className="message_input" id="message-to-send" placeholder="Type your message" />
-                    <button className="message_send">Send</button>
-                </form>
-
-            </div>
+            </>
         )
 
     }

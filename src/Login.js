@@ -3,6 +3,7 @@ import './Login.css'
 import ApiContext from './ApiContext'
 import TokenService from './token-service'
 import config from './config'
+import { NavLink } from 'react-router-dom';
 
 
 export default class Login extends Component {
@@ -30,7 +31,9 @@ export default class Login extends Component {
             .then((response) => {
                 //create and save the token
                 const token = response.authToken;
+                const userName = response.userName;
                 TokenService.saveAuthToken(token)
+                TokenService.saveUser(userName)
                 this.props.history.push(`/`)
             })
             .catch(error => {
@@ -57,7 +60,7 @@ export default class Login extends Component {
 
                 </div>
 
-                <p>Don't have an account ? <a href="/register">Register</a></p>
+                <p>Don't have an account ? <NavLink to={'/register'}>Register</NavLink></p>
 
             </div>
 

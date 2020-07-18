@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import socketIOClient from "socket.io-client";
 
 import { getRoomFromRoomId } from './messages-helpers'
+import TokenService from './token-service';
 
 export default class RoomNav extends Component {
     static contextType = ApiContext
@@ -16,15 +17,10 @@ export default class RoomNav extends Component {
         const socket = socketIOClient('http://localhost:8001');
         //emit- that user has joined with an event
         //notify server that a new user wants to join the room
-        socket.emit('userLeft', { roomId, userId: 20 })
+        socket.emit('userLeft', { roomId, userId: TokenService.getAuthToken() })
     }
     render() {
-        //getting the room id from the url
-        const { room_id } = this.props.match.params
-        //reading the room from the context
-        const { rooms = [] } = this.context
-        //getting a room given its roomId
-        const room = getRoomFromRoomId(rooms, parseInt(room_id))
+        const room = this.props.room
 
         if (!room) {
             return <> </>

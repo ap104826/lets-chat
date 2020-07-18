@@ -3,6 +3,7 @@ import './Login.css'
 import ApiContext from './ApiContext'
 import TokenService from './token-service';
 import config from './config'
+import { NavLink } from 'react-router-dom';
 
 
 export default class Register extends Component {
@@ -38,8 +39,10 @@ export default class Register extends Component {
                 return res.json()
             })
             .then(user => {
-                const token = TokenService.makeBasicAuthToken(user.userName, user.password)
+                const token = user.authToken;
+                const userName = user.userName;
                 TokenService.saveAuthToken(token);
+                TokenService.saveUser(userName)
                 this.props.history.push(`/`)
             })
             .catch(error => {
@@ -62,7 +65,7 @@ export default class Register extends Component {
                         <input type="password" classname="password2" required name='password2' placeholder="Password confirmation" required />
                         <button type="submit" className="signup_btn">Sign up</button>
                         <hr />
-                        <p>Do you have an account ? <a href="/login">Sign in</a></p>
+                        <p>Do you have an account ? <NavLink to={'/login'}>Sign in</NavLink></p>
 
                     </form>
 
