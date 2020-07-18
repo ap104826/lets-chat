@@ -1,6 +1,6 @@
 .rooms__list-container {
     margin-top: 25px;
-    width: 480px;
+    min-width: 260px;
 }
 
 .rooms__list-item {
@@ -120,4 +120,10 @@
   border-right: 1px solid;
   border-color: #535353;
   border-width: medium;
+}
+
+@media (max-width: 576px) {
+  .chat_nav {
+    display: none;
+  }
 }
