@@ -6,7 +6,6 @@ import socketIOClient from "socket.io-client";
 import config from './config'
 import TokenService from './token-service'
 import AppNav from './AppNav'
-const socket = io('http://localhost:8001')
 
 export default class Rooms extends Component {
 
@@ -15,7 +14,7 @@ export default class Rooms extends Component {
     }
     static contextType = ApiContext
     componentDidMount() {
-        fetch(`${config.API_ENDPOINT}/rooms`, {
+        fetch(`${config.API_ENDPOINT}/api/rooms`, {
             headers: {
                 authorization: `bearer ${TokenService.getAuthToken()}`
             }
@@ -38,7 +37,21 @@ export default class Rooms extends Component {
     handleClickDelete = (e, roomId) => {
         e.preventDefault()
         if (window.confirm("Are you sure you want to delete this room?")) {
-            this.context.deleteRoom(roomId)
+            return fetch(`${config.API_ENDPOINT}/api/rooms/${roomId}`, {
+                method: 'DELETE',
+                headers: {
+                    authorization: `bearer ${TokenService.getAuthToken()}`,
+                    'content-type': 'application/json'
+                },
+            })
+                .then(() => {
+                    this.setState({
+                        rooms: this.state.rooms.filter(room => room.id !== roomId)
+                    })
+                })
+                .catch(error => {
+                    console.error({ error })
+                })
         }
     }
     handleOnClick = (e, roomId) => {

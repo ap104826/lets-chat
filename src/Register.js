@@ -29,7 +29,7 @@ export default class Register extends Component {
         const userName = form['email'].value
         const password = form['password1'].value
 
-        return fetch(`${config.API_ENDPOINT}/users`, {
+        return fetch(`${config.API_ENDPOINT}/api/users`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

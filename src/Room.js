@@ -7,7 +7,7 @@ import TokenService from './token-service'
 import RoomNav from './RoomNav';
 
 
-const socket = io('http://localhost:8001')
+const socket = io(config.API_ENDPOINT)
 
 
 export default class Room extends Component {
@@ -35,7 +35,7 @@ export default class Room extends Component {
 
     componentWillUnmount() {
         const { room_id } = this.props.match.params
-        const socket = socketIOClient('http://localhost:8001');
+        const socket = socketIOClient(config.API_ENDPOINT);
         socket.emit('userLeft', { roomId: room_id, authToken: TokenService.getAuthToken() })
     }
 
@@ -70,7 +70,7 @@ export default class Room extends Component {
             })
         })
 
-        fetch(`${config.API_ENDPOINT}/rooms/${room_id}`, {
+        fetch(`${config.API_ENDPOINT}/api/rooms/${room_id}`, {
             headers: {
                 authorization: `bearer ${TokenService.getAuthToken()}`
             }
@@ -89,7 +89,7 @@ export default class Room extends Component {
 
 
         //read the room id from the browser url and pass it to the api url
-        fetch(`${config.API_ENDPOINT}/rooms/${room_id}/messages`, {
+        fetch(`${config.API_ENDPOINT}/api/rooms/${room_id}/messages`, {
             headers: {
                 authorization: `bearer ${TokenService.getAuthToken()}`
             }
@@ -107,7 +107,7 @@ export default class Room extends Component {
             }))
 
         //read the room id from the browser url and pass it to the api url
-        fetch(`${config.API_ENDPOINT}/rooms/${room_id}/users`, {
+        fetch(`${config.API_ENDPOINT}/api/rooms/${room_id}/users`, {
             headers: {
                 authorization: `bearer ${TokenService.getAuthToken()}`
             }
@@ -147,7 +147,7 @@ export default class Room extends Component {
             message: messageName,
             room_id: parseInt(room_id)
         }
-        const socket = socketIOClient('http://localhost:8001');
+        const socket = socketIOClient(config.API_ENDPOINT);
         socket.emit('message', { message, authToken }) // change 'red' to this.state.color
 
         form['message-to-send'].value = ''

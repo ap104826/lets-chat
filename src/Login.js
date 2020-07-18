@@ -20,7 +20,7 @@ export default class Login extends Component {
         const userName = form['Email'].value
         const password = form['Password'].value
 
-        return fetch(`${config.API_ENDPOINT}/users/login`, {
+        return fetch(`${config.API_ENDPOINT}/api/users/login`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

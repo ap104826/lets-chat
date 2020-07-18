@@ -14,7 +14,7 @@ import PrivateRoute from './PrivateRoute'
 import TokenService from './token-service'
 
 
-const socket = io('http://localhost:8001')
+const socket = io(config.API_ENDPOINT)
 
 class App extends Component {
   state = {
@@ -28,7 +28,7 @@ class App extends Component {
   }
 
   handleDeleteRoom = roomId => {
-    return fetch(`${config.API_ENDPOINT}/rooms/${roomId}`, {
+    return fetch(`${config.API_ENDPOINT}/api/rooms/${roomId}`, {
       method: 'DELETE',
       headers: {
         authorization: `bearer ${TokenService.getAuthToken()}`,
@@ -58,7 +58,7 @@ class App extends Component {
 
 
   handleAddNewRoom = roomName => {
-    return fetch(`${config.API_ENDPOINT}/rooms`, {
+    return fetch(`${config.API_ENDPOINT}/api/rooms`, {
       method: 'POST',
       headers: {
         authorization: `bearer ${TokenService.getAuthToken()}`,
