@@ -10,6 +10,10 @@ export default class Login extends Component {
 
     static contextType = ApiContext
 
+    state = {
+        incorrectCredentials: false
+    }
+
     handleSubmit = e => {
         e.preventDefault()
         const form = e.currentTarget
@@ -37,6 +41,11 @@ export default class Login extends Component {
                 this.props.history.push(`/`)
             })
             .catch(error => {
+                if (error.error === 'Incorrect user_name or password') {
+                    this.setState({
+                        incorrectCredentials: true
+                    })
+                }
                 console.error({ error })
             })
     }
@@ -44,26 +53,42 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div className="chat">
-                <title>Login </title>
-                <div className="sign-up-form">
+            <>
+                <header className="App_header">
+                    <h2>LetsChat</h2>
+                </header>
 
-                    <h1> Login</h1>
-                    <form className="input-group" onSubmit={(e) => this.handleSubmit(e)}>
-                        <input type="email" className="input_field" required name='Email' placeholder="Email" required />
-                        <input type="password" className="input_field" required name='Password' placeholder="Password" required />
-                        <button type="submit" className="signup_btn">Sign in</button>
+                <div className="sign-up-form__container">
+                    <h2>Login</h2>
+                    <form className="sign-up-form__form" onSubmit={(e) => this.handleSubmit(e)}>
+                        <div className="sign-up-form__field">
+                            <label className="sign-up-form__label" htmlFor="Email">Email</label>
+                            <input className="sign-up-form__input" type="email" required name='Email' placeholder="Email" required />
+                        </div>
+                        <div className="sign-up-form__field">
+                            <label className="sign-up-form__label" htmlFor="Password">Password</label>
+                            <input className="sign-up-form__input" type="password" required name='Password' placeholder="Password" required />
 
-                        <hr />
+                        </div>
+                        <div className="sign-up-form__button-section">
+                            <NavLink className='sign-up-form__link' to={'/register'}>Create an account</NavLink>
+                            <button type="submit" className="sign-up-form__login-button">Login</button>
+                        </div>
+
 
                     </form>
 
+                    {
+                        this.state.incorrectCredentials ?
+                            <p className='sign-up-form__incorrect-credentials-error'>Incorrect credentials supplied. Try again with the correct credentials.</p> :
+                            <></>
+                    }
+
+
                 </div>
 
-                <p>Don't have an account ? <NavLink to={'/register'}>Register</NavLink></p>
 
-            </div>
-
+            </>
         )
     }
 }

@@ -142,14 +142,14 @@ export default class Room extends Component {
         const { room_id } = this.props.match.params
         const form = e.currentTarget
         const messageName = form['message-to-send'].value
+        const authToken = TokenService.getAuthToken();
         const message = {
             message: messageName,
-            user: 'Nachiket',
             modified: new Date(),
             room_id: parseInt(room_id)
         }
         const socket = socketIOClient('http://localhost:8001');
-        socket.emit('message', message) // change 'red' to this.state.color
+        socket.emit('message', { message, authToken }) // change 'red' to this.state.color
 
         form['message-to-send'].value = ''
     }

@@ -9,6 +9,9 @@ import { NavLink } from 'react-router-dom';
 export default class Register extends Component {
 
     static contextType = ApiContext
+    state = {
+        incorrectCredentials: false
+    }
 
 
     handleRegisterSubmit = e => {
@@ -54,23 +57,47 @@ export default class Register extends Component {
 
     render() {
         return (
-            <div className="chat">
-                <title>Register </title>
-                <div className="sign-up-form">
+            <>
 
-                    <h1> Register</h1>
-                    <form className="input-group" onSubmit={(e) => this.handleRegisterSubmit(e)}>
-                        <input type="email" className="input_field" required name='email' placeholder="Email" required />
-                        <input type="password" className="password1" required name='password1' placeholder="Password" required />
-                        <input type="password" classname="password2" required name='password2' placeholder="Password confirmation" required />
-                        <button type="submit" className="signup_btn">Sign up</button>
-                        <hr />
-                        <p>Do you have an account ? <NavLink to={'/login'}>Sign in</NavLink></p>
+                <header className="App_header">
+                    <h2>LetsChat</h2>
+                </header>
+                <div className="sign-up-form__container">
+                    <h2>Register</h2>
+                    <form className="sign-up-form__form" onSubmit={(e) => this.handleRegisterSubmit(e)}>
+                        <div className="register-form__field">
+                            <div className="sign-up-form__field">
+                                <label className="sign-up-form__label" htmlFor="Email">Email</label>
+                                <input className="sign-up-form__input" type="email" required name='email' placeholder="Email" required />
+                            </div>
 
+
+                            <div className="sign-up-form__field">
+                                <label className="sign-up-form__label" htmlFor="password1">Password</label>
+                                <input type="password" className="sign-up-form__input" required name='password1' placeholder="Password" required />
+                            </div>
+
+                            <div className="sign-up-form__field">
+                                <label className="sign-up-form__label" htmlFor="password2">Confirm Password</label>
+                                <input type="password" className="sign-up-form__input" required name='password2' placeholder="Password confirmation" required />
+                            </div>
+
+                            <div className="sign-up-form__button-section">
+                                <NavLink className='sign-up-form__link' to={'/login'}>Sign in</NavLink>
+                                <button type="submit" className="sign-up-form__login-button">Sign up</button>
+                            </div>
+                        </div>
                     </form>
 
+                    {
+                        this.state.incorrectCredentials ?
+                            <p className='sign-up-form__incorrect-credentials-error'>Incorrect credentials supplied. Try again with the correct credentials.</p> :
+                            <></>
+                    }
+
+
                 </div>
-            </div>
+            </>
         )
     }
 }
