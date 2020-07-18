@@ -83,7 +83,7 @@ export default class Register extends Component {
                             </div>
 
                             <div className="sign-up-form__button-section">
-                                <NavLink className='sign-up-form__link' to={'/login'}>Sign in</NavLink>
+                                <NavLink className='o-link sign-up-form__link' to={'/login'}>Sign in</NavLink>
                                 <button type="submit" className="sign-up-form__login-button">Sign up</button>
                             </div>
                         </div>

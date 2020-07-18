@@ -71,7 +71,7 @@ export default class Login extends Component {
 
                         </div>
                         <div className="sign-up-form__button-section">
-                            <NavLink className='sign-up-form__link' to={'/register'}>Create an account</NavLink>
+                            <NavLink className='o-link sign-up-form__link' to={'/register'}>Create an account</NavLink>
                             <button type="submit" className="sign-up-form__login-button">Login</button>
                         </div>
 

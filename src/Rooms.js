@@ -86,8 +86,8 @@ export default class Rooms extends Component {
                         <ul>
                             {rooms.map(room =>
                                 <li key={room.id} className="rooms__list-item">
-                                    <a href='' className="room__link" onClick={(e) => this.handleOnClick(e, room.id)}>{room.name}</a>
-                                    <a href='' className="room__link" onClick={(e) => this.handleClickDelete(e, room.id)}>Delete</a>
+                                    <a href='' className="o-link room__link" onClick={(e) => this.handleOnClick(e, room.id)}>{room.name}</a>
+                                    <a href='' className="o-link room__link" onClick={(e) => this.handleClickDelete(e, room.id)}>Delete</a>
                                 </li>)}
                         </ul>
                     </div>

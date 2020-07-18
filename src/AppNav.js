@@ -10,13 +10,9 @@ export default class AppNav extends Component {
         this.props.history.push(`/login`)
     }
     render() {
-        //use nav links to link to the home page
-        const userName = TokenService.getUserName()
         return (<>
-            <h2>User: {userName}</h2>
-            <div>
-                <a href='' onClick={(e) => this.handleLogout(e)}>Log out</a>
-            </div>
+            <h2>LetsChat</h2>
+            <a className="o-link sign-out__link" href='' onClick={(e) => this.handleLogout(e)}>Log out</a>
         </>)
     }
 

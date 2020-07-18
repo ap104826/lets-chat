@@ -16,14 +16,22 @@
 
 .sign-up-form__input {
     padding: 10px 16px;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.3333333;
     border-radius: 6px;
     width: 100%;
 }
 
+.o-link {
+    font-size: 18px;
+}
+
 .sign-up-form__link {
     color: #767676;
+}
+
+.sign-out__link {
+    color: #ffffffcb;
 }
 
 .sign-up-form__label {
@@ -47,7 +55,7 @@
     font-weight: 700;
     text-align: center;
     color: #fff;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.33;
     padding: 11px 20%;
     border-radius: 24px;
