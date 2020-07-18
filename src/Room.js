@@ -145,7 +145,7 @@ export default class Room extends Component {
         const message = {
             message: messageName,
             user: 'Nachiket',
-            time: new Date(),
+            modified: new Date(),
             room_id: parseInt(room_id)
         }
         const socket = socketIOClient('http://localhost:8001');
@@ -179,7 +179,7 @@ export default class Room extends Component {
                                 <ul>
                                     {this.state.messages.map((message, index) => <li key={index}>
                                         <div className="message-data align-right">
-                                            <span className="message-data-time">{message.modified}:{message.modified}</span> &nbsp; &nbsp;
+                                            <span className="message-data-time">{new Date(message.modified).getHours()}:{new Date(message.modified).getMinutes()}</span> &nbsp; &nbsp;
                 <span className="message-data-name">{message.user}</span>
 
                                         </div>
