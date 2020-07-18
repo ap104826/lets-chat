@@ -44,11 +44,6 @@ export default class Rooms extends Component {
     handleOnClick = (e, roomId) => {
         e.preventDefault()
         this.props.history.push(`/rooms/${roomId}`)
-        //send a join message with roomId
-        const socket = socketIOClient('http://localhost:8001');
-        //emit- that user has joined with an event
-        //notify server that a new user wants to join the room
-        socket.emit('userJoined', { roomId, authToken: TokenService.getAuthToken() })
     }
 
     handleformSubmit = e => {

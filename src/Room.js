@@ -24,8 +24,24 @@ export default class Room extends Component {
         room: null
     };
 
+    getUniqueUsers = (users) => {
+        let uniqueUsers = users.filter((user, index, self) =>
+            index === self.findIndex((anotherUser) => (
+                anotherUser.user_name === user.user_name
+            ))
+        )
+        return uniqueUsers
+    }
+
+    componentWillUnmount() {
+        const { room_id } = this.props.match.params
+        const socket = socketIOClient('http://localhost:8001');
+        socket.emit('userLeft', { roomId: room_id, authToken: TokenService.getAuthToken() })
+    }
+
     componentDidMount() {
         const { room_id } = this.props.match.params
+        socket.emit('userJoined', { roomId: room_id, authToken: TokenService.getAuthToken() })
 
         socket.on('message', (message) => {
             if (message.room_id !== parseInt(room_id)) {
@@ -37,20 +53,20 @@ export default class Room extends Component {
         })
 
         socket.on('userJoined', (user) => {
-            if (user.roomId !== parseInt(room_id)) {
+            if (user.roomId !== room_id) {
                 return
             }
             this.setState({
-                users: [...this.state.users, user]
+                users: this.getUniqueUsers([...this.state.users, user])
             })
         })
 
-        socket.on('userLeft', (user) => {
-            if (user.roomId !== parseInt(room_id)) {
+        socket.on('userLeft', ({ id, roomId }) => {
+            if (roomId !== room_id) {
                 return
             }
             this.setState({
-                users: this.state.users.filter(u => u.id !== user.id)
+                users: this.state.users.filter(u => u.id !== id)
             })
         })
 
@@ -106,7 +122,7 @@ export default class Room extends Component {
             //we get the messages and set it on the state
             .then(users => {
                 this.setState({
-                    users: this.state.users.concat(users)
+                    users: this.getUniqueUsers(this.state.users.concat(users))
                 })
             })
     }
