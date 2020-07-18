@@ -44,7 +44,7 @@ export default class Room extends Component {
         socket.emit('userJoined', { roomId: room_id, authToken: TokenService.getAuthToken() })
 
         socket.on('message', (message) => {
-            if (message.room_id !== parseInt(room_id)) {
+            if (message.rooms_id !== parseInt(room_id)) {
                 return
             }
             this.setState({
@@ -145,13 +145,20 @@ export default class Room extends Component {
         const authToken = TokenService.getAuthToken();
         const message = {
             message: messageName,
-            modified: new Date(),
             room_id: parseInt(room_id)
         }
         const socket = socketIOClient('http://localhost:8001');
         socket.emit('message', { message, authToken }) // change 'red' to this.state.color
 
         form['message-to-send'].value = ''
+    }
+
+    scrollToBottom = () => {
+        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
     }
 
     render() {
@@ -167,7 +174,7 @@ export default class Room extends Component {
                             <div className="chat_users">
                                 <h2 className="room__users-heading">Users</h2>
                                 <ul>
-                                    {this.state.users.map((user, index) => <li className="rooms__list-item" key={index}>{user.user_name}</li>)}
+                                    {this.state.users.map((user, index) => <li className="rooms__list-item o-link room__link" key={index}>{user.user_name}</li>)}
                                 </ul>
                             </div>
 
@@ -175,19 +182,26 @@ export default class Room extends Component {
 
 
                         <div className="chat_messages">
-                            <ul className="room__messages-list">
-                                {this.state.messages.map((message, index) => <li key={index} className="rooms__messages-list-item">
-                                    <div className="message-data align-right">
-                                        <span className="room__message-time">{new Date(message.modified).getHours()}:{new Date(message.modified).getMinutes()}</span> &nbsp; &nbsp;
+                            <div className="chat_messsages-list-container">
+                                <ul className="room__messages-list">
+                                    {this.state.messages.map((message, index) => <li key={index} className="rooms__messages-list-item">
+                                        <div className="message-data align-right">
+                                            <span className="room__message-time">{new Date(message.modified).getHours()}:{new Date(message.modified).getMinutes()}</span> &nbsp; &nbsp;
             <span className="message-data-name">{message.user}</span>
 
-                                    </div>
-                                    <div className="room__message-text">
-                                        {message.message}
-                                    </div>
-                                </li>)}
+                                        </div>
+                                        <div className="room__message">
+                                            <span className="room__message-time">{message.user_name}</span>
+                                            <span className="room__message-text">{message.message}</span>
+                                        </div>
+                                    </li>)}
 
-                            </ul>
+                                </ul>
+                                <div style={{ float: "left", clear: "both" }}
+                                    ref={(el) => { this.messagesEnd = el; }}>
+                                </div>
+                            </div>
+
                             <form className="chat_message" onSubmit={(e) => this.handleSubmit(e)}>
                                 <input name="message-to-send" className="sign-up-form__input message_input" id="message-to-send" placeholder="Type your message" />
                                 <button type="submit" className="sign-up-form__login-button message_send-button">Send</button>

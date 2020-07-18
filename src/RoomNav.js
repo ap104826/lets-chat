@@ -17,7 +17,10 @@ export default class RoomNav extends Component {
         //use nav links to link to the home page
         return (<>
             <h2>LetsChat</h2>
-            <a className="o-link sign-out__link" href='' onClick={(e) => this.handleLeaveRoom(e, room.id)}>Leave Room</a>
+            <div className="o-link">
+                <span className="room__room-name">Room: {room.name}</span>
+                <a className="sign-out__link" href='' onClick={(e) => this.handleLeaveRoom(e, room.id)}>Leave Room</a>
+            </div>
         </>)
     }
 

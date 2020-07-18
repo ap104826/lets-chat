@@ -39,12 +39,24 @@
     font-weight: 700;
 }
 
+.room__message {
+    display: flex;
+    flex-direction: column;
+}
+
 .room__message-text {
-    font-size: 16px;
+  color: black;
+  font-size: 18px;
 }
 
 .room__users-heading {
     text-align: center;
+}
+
+.room__room-name {
+  margin-right: 10px;
+  color: #ffffffcb;
+  font-size: 20px;
 }
 
 .chat_container {
@@ -76,6 +88,7 @@
 
 .chat_messages {
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
   flex: 1;
   margin-bottom: 20px;
@@ -84,6 +97,11 @@
 .chat_message {
   display: flex;
   margin-left: 10px;
+}
+
+.chat_messsages-list-container {
+  height: 80vh;
+  overflow-y: scroll;
 }
 
 .message_input {
