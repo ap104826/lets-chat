@@ -65,32 +65,34 @@ export default class Rooms extends Component {
                     <AppNav history={this.props.history} />
                 </header>
 
-                <div className="room_form">
-                    <form onSubmit={(e) => this.handleformSubmit(e)}>
-                        <input type="text" className="input_box" required name='room-name' placeholder="Type a new Room" />
-                        <input type="submit" className="signup-btn" value="Create" />
+                <div className="sign-up-form__container">
+                    <h2>Create a room</h2>
+                    <form className="sign-up-form__form" onSubmit={(e) => this.handleformSubmit(e)}>
+
+                        <div className="sign-up-form__field">
+                            <label className="sign-up-form__label" htmlFor="room-name">Room name</label>
+                            <input type="text" className="sign-up-form__input" required name='room-name' placeholder="Type a new Room" />
+                        </div>
+
+                        <div className="sign-up-form__button-section">
+                            <button type="submit" className="sign-up-form__login-button">Create</button>
+                        </div>
+
                     </form>
-                    <hr />
 
-                    <label htmlFor="rooms">Choose a Room:</label>
-                    <br></br>
-                    <ul>
-                        {rooms.map(room =>
-                            <li key={room.id}>
+                    <div className="rooms__list-container">
+                        <h2>Choose a room</h2>
 
-
-                                <a href='' onClick={(e) => this.handleOnClick(e, room.id)}>{room.name}</a>
-
-                                {/* to={`/rooms/${room.id}`} */}
-
-
+                        <ul>
+                            {rooms.map(room =>
+                                <li key={room.id} className="rooms__list-item">
+                                    <a href='' className="room__link" onClick={(e) => this.handleOnClick(e, room.id)}>{room.name}</a>
+                                    <a href='' className="room__link" onClick={(e) => this.handleClickDelete(e, room.id)}>Delete</a>
+                                </li>)}
+                        </ul>
+                    </div>
 
 
-
-                                <a href='' onClick={(e) => this.handleClickDelete(e, room.id)}>Delete</a>
-
-                            </li>)}
-                    </ul>
                 </div>
             </>
 

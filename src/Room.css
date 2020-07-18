@@ -1,10 +1,22 @@
-.room_form{
-    text-align: center;
-    color: #6B6B6B;
-
+.rooms__list-container {
+    margin-top: 25px;
+    width: 480px;
 }
 
-.message_send{
-    background-color: orange;
-    color: #6B6B6B 
+.rooms__list-item {
+    align-items: center;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    flex: 1 1 auto;
+    padding: 15px;
+    width: 100%;
+}
+
+.room__link {
+    color: #2e2e2e;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
 }
