@@ -8,7 +8,7 @@
 
 ### Screenshots of the App- 
 
-<img width="1440" alt="Screen Shot 2020-06-19 at 2 13 39 PM" src=file:///Users/arpita/Desktop/Screen%20Shot%202020-07-18%20at%206.48.18%20PM.png>
+<img width="1440" alt="Screen Shot 2020-06-19 at 2 13 39 PM" src="https://Users/arpita/Desktop/Screen%20Shot%202020-07-18%20at%206.48.18%20PM.png">
 
 ### Summary
 
