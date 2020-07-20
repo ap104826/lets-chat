@@ -41,12 +41,10 @@ export default class Login extends Component {
                 this.props.history.push(`/`)
             })
             .catch(error => {
-                if (error.error === 'Incorrect user_name or password') {
-                    this.setState({
-                        incorrectCredentials: true
-                    })
-                }
-                console.error({ error })
+                this.setState({
+                    incorrectCredentials: true
+                })
+
             })
     }
 

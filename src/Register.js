@@ -48,9 +48,7 @@ export default class Register extends Component {
                 TokenService.saveUser(userName)
                 this.props.history.push(`/`)
             })
-            .catch(error => {
-                console.error({ error })
-            })
+
     }
 
 

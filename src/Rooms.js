@@ -28,9 +28,7 @@ export default class Rooms extends Component {
             .then((rooms) => {
                 this.setState({ rooms })
             })
-            .catch(error => {
-                console.error({ error })
-            })
+
 
     }
 
@@ -49,9 +47,7 @@ export default class Rooms extends Component {
                         rooms: this.state.rooms.filter(room => room.id !== roomId)
                     })
                 })
-                .catch(error => {
-                    console.error({ error })
-                })
+
         }
     }
     handleOnClick = (e, roomId) => {

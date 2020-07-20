@@ -40,9 +40,7 @@ class App extends Component {
           rooms: this.state.rooms.filter(room => room.id !== roomId)
         })
       })
-      .catch(error => {
-        console.error({ error })
-      })
+
   }
 
 
@@ -80,9 +78,7 @@ class App extends Component {
         })
         return room;
       })
-      .catch(error => {
-        console.error({ error })
-      })
+
 
   }
 
