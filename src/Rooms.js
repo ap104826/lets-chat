@@ -76,6 +76,7 @@ export default class Rooms extends Component {
 
                 <div className="sign-up-form__container">
                     <h2>Create a room</h2>
+                    <h4>Welcome, to get started with chat create or join a room!</h4>
                     <form className="sign-up-form__form" onSubmit={(e) => this.handleformSubmit(e)}>
 
                         <div className="sign-up-form__field">
