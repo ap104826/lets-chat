@@ -58,6 +58,9 @@ export default class Login extends Component {
 
                 <div className="sign-up-form__container">
                     <h2>Login</h2>
+                    <p>Demo Credentials</p>
+                    <p>Email: demo@letschat.com</p>
+                    <p>Password: 4321</p>
                     <form className="sign-up-form__form" onSubmit={(e) => this.handleSubmit(e)}>
                         <div className="sign-up-form__field">
                             <label className="sign-up-form__label" htmlFor="Email">Email</label>
