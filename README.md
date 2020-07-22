@@ -3,6 +3,8 @@
 
 ### Link to live app- https://lets-chat.ap104826.vercel.app
 
+### Demo Login: Email: demo@letschat.com , Password- 4321
+
 ### Documentation of API
  
 - login - POST `/api/login`
